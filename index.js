@@ -1,4 +1,4 @@
-const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, Events, GatewayIntentBits, Collection, Partials } = require('discord.js');
 const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
@@ -6,7 +6,7 @@ const fs = require('fs');
 dotenv.config();
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] , partials: [Partials.GuildMember] });
 
 client.cooldowns = new Collection();
 client.commands = new Collection();
