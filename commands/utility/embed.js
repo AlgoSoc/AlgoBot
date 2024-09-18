@@ -1,3 +1,5 @@
+const config = require("../../config.json");
+
 const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
@@ -10,6 +12,10 @@ module.exports = {
 				.setDescription('Input to embed.')
 				.setRequired(true)),
 	async execute(interaction){
+        if (!config.admins.includes(interaction.user.id)) {
+            return interaction.reply({content: "You don't have permission to do that!", ephemeral: true})
+        }
+
 		const input = interaction.options.getString('input');
 
         if(!input){
