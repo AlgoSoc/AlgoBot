@@ -6,7 +6,7 @@ const fs = require('fs');
 dotenv.config();
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] , partials: [Partials.GuildMember] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] , partials: [Partials.GuildMember, Partials.Channel] });
 
 client.cooldowns = new Collection();
 client.commands = new Collection();
