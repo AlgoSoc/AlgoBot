@@ -2,6 +2,12 @@ const { EmbedBuilder } = require('discord.js'); // Correct import for EmbedBuild
 const { SlashCommandBuilder } = require("@discordjs/builders"); // Make sure this import is correct
 const axios = require('axios');
 
+const DIFFICULTY_COLOURS = {
+  "Easy": "#00ff00",
+  "Medium": "#ffcc00",
+  "Hard": "#b30000",
+}
+
 // Fetches problem with specific id
 
 module.exports = {
@@ -52,7 +58,7 @@ module.exports = {
               { name: 'Question ID', value: question.frontendQuestionId.toString(), inline: true },
               { name: 'Paid Only', value: question.paidOnly ? 'Yes' : 'No', inline: true }
             )
-            .setColor('#00FF00')
+            .setColor(DIFFICULTY_COLOURS[question.difficulty])
             .setTimestamp()
             .setURL(`https://leetcode.com${problem.link}`);
 

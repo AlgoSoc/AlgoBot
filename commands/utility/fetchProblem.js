@@ -3,6 +3,12 @@ const { SlashCommandBuilder } = require("@discordjs/builders"); // Make sure thi
 const { NodeHtmlMarkdown } = require('node-html-markdown')
 const axios = require('axios');
 
+const DIFFICULTY_COLOURS = {
+  "Easy": "#00ff00",
+  "Medium": "#ffcc00",
+  "Hard": "#b30000",
+}
+
 // Fetches problem with specific id
 function splitContent(str, maxLength){
   const preprocess = []
@@ -149,7 +155,7 @@ module.exports = {
               { name: 'Paid Only', value: question.isPaidOnly ? 'Yes' : 'No', inline: true },
               { name: 'Description', value: "The problem is as follows:", inline: false },
             )
-            .setColor('#00FF00')
+            .setColor(DIFFICULTY_COLOURS[question.difficulty])
             .setTimestamp()
             .setURL(`${problemUrl}`);
 
