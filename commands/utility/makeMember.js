@@ -60,14 +60,23 @@ module.exports = {
 				welcomeChannel.send(`<:algosoc:1285571310281293848> ${interaction.user} just verified their membership using \`/makemember\` and got the golden Member role!`);
 				const adminChannel = interaction.guild.channels.cache.get(process.env["ADMIN_LOG_CHANNEL_ID"]);
 				adminChannel.send(`<:algosoc:1285571310281293848> ${interaction.user} just verified with student ID \`${studentID}\``);
-				await interaction.reply(`Role \`Member\` has been added to ${interaction.user}!`, ephemeral=true);
+				await interaction.reply({
+					content: `Role \`Member\` has been added to ${interaction.user}!`,
+					ephemeral: true
+				});
 			} else {
-				await interaction.reply("You don't have a membership! You can purchase one at [join.algosoc.uk](http://join.algosoc.uk/)", ephemeral=true);
+				await interaction.reply({
+					content: "You don't have a membership! You can purchase one at [join.algosoc.uk](http://join.algosoc.uk/)",
+					ephemeral: true
+				});
 			}
 		
 		} catch (err) {
 			console.error(err);
-			await interaction.reply("An error occurred. Try again later.", ephemeral=true);
+			await interaction.reply({
+				content: "An error occurred. Try again later.",
+				ephemeral: true
+			});
 		}
 
 	},
