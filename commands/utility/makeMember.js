@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const JSSoup = require('jssoup').default;
+const newEmbed = require("../../tools/embedFactory");
 
 async function getMemberStudentIds() {
 	const res = await fetch(process.env["MEMBER_LIST_URL"], {
@@ -53,11 +54,13 @@ module.exports = {
 
 			let memberIds = await getMemberStudentIds();
 			if (memberIds.has(studentID)) {
-				interaction.guild.members.cache.get(interaction.user.id).roles.add(
-					interaction.guild.roles.cache.find(r => r.id == process.env["MEMBER_ROLE_ID"])
-				);
+				let memberRole = interaction.guild.roles.cache.find(r => r.id == process.env["MEMBER_ROLE_ID"]);
+				interaction.guild.members.cache.get(interaction.user.id).roles.add(memberRole);
 				const welcomeChannel = interaction.guild.channels.cache.get(process.env["WELCOME_CHANNEL_ID"]);
-				welcomeChannel.send(`<:algosoc:1285571310281293848> ${interaction.user} just verified their membership using \`/makemember\` and got the golden Member role!`);
+				let embed = newEmbed().setDescription(`<:algosoc:1285571310281293848> ${interaction.user} just verified their membership using \`/makemember\` and got the ${memberRole} role!`);
+				welcomeChannel.send({
+					embeds: [embed]
+				});
 				const adminChannel = interaction.guild.channels.cache.get(process.env["ADMIN_LOG_CHANNEL_ID"]);
 				adminChannel.send(`<:algosoc:1285571310281293848> ${interaction.user} just verified with student ID \`${studentID}\``);
 				await interaction.reply({
