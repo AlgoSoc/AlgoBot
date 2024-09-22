@@ -10,23 +10,39 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 client.cooldowns = new Collection();
 client.commands = new Collection();
+client.subCommands = new Collection();
 
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) { // loop all folders & load commands 
     const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    const commandFiles = fs.readdirSync(commandsPath);
     for (const file of commandFiles) {
-        const filePath = path.join(commandsPath, file);
-        const command = require(filePath);
-
-        // Set a new item in the Collection with the key as the command name and the value as the exported module
-        if ('data' in command && 'execute' in command) {
-            client.commands.set(command.data.name, command);
-        } else {
-            console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+        if (file.endsWith(".js")) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+    
+            // Set a new item in the Collection with the key as the command name and the value as the exported module
+            if ('data' in command && 'execute' in command) {
+                client.commands.set(command.data.name, command);
+            } else {
+                console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+            }
+        } else if (file == "subcommands") { // Check if folder has a subcommands folder to load
+            const cmdFiles = path.join(commandsPath, file);
+            const cmdFolder = fs.readdirSync(cmdFiles);
+            for (const subFile of cmdFolder) {
+                const subCmd = require(path.join(cmdFiles, subFile));
+                if ('name' in subCmd && 'execute' in subCmd) {
+                    console.log(`${folder}_${subCmd.name}`)
+                    client.subCommands.set(`${folder}_${subCmd.name}`, subCmd); // Set subcommand in seperate collection
+                } else {
+                    console.log(`[Warning] SubCommand at ${subFile} is missing properties!`)
+                }
+            }
         }
+        
     }
 }
 
