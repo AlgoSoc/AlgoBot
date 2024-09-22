@@ -42,7 +42,7 @@ for (const file of eventFiles) { // loop through events folder and if events .on
 	if (event.once) { // check the event should only be triggered once
 		client.once(event.name, (...args) => event.execute(...args)); //register event only once   
 	} else {
-		client.on(event.name, (...args) => event.execute(...args)); // register event to be triggered more than once
+		client.on(event.name, (...args) => event.execute(client, ...args)); // register event to be triggered more than once
 	}
 }
 

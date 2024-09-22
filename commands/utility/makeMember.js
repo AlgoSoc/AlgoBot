@@ -47,7 +47,7 @@ module.exports = {
 			option.setName('student_id')
 				.setDescription('Your student ID number.')
 				.setRequired(true)),
-	async execute(interaction){
+	async execute(client, interaction){
 		const studentID = interaction.options.getString('student_id', true);
 
 		try {

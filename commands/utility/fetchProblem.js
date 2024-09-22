@@ -79,7 +79,7 @@ module.exports = {
           { name: 'Medium', value: 'MEDIUM' },
           { name: 'Hard', value: 'HARD' }
         )),
-  async execute(interaction) {
+  async execute(client, interaction) {
     try {
         let difficulty = interaction.options.getString('Difficulty');
 

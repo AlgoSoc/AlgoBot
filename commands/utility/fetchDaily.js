@@ -14,7 +14,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("daily")
     .setDescription("Fetch the daily problem"),
-  async execute(interaction) {
+  async execute(client, interaction) {
     try {
 
         const query = `
