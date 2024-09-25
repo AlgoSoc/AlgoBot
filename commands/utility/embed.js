@@ -11,7 +11,7 @@ module.exports = {
 			option.setName('input')
 				.setDescription('Input to embed.')
 				.setRequired(true)),
-	async execute(interaction){
+	async execute(client, interaction){
         if (!config.admins.includes(interaction.user.id)) {
             return interaction.reply({content: "You don't have permission to do that!", ephemeral: true})
         }
